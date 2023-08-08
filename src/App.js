@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import cloudy from "./images/cloudy.jpg";
 import axios from "axios";
 
 function App() {
@@ -37,31 +38,35 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div>
-        <input
-          type="text"
-          value={location}
-          onChange={(event) => setLocation(event.target.value)}
-          onKeyUp={searchLocationHandler}
-          placeholder="Enter location"
-        />
-        <div>{day}</div>
-        <div>
-          {dayOfMonth} {month} {year}
+    <div className="app">
+      <div className="weather-container">
+        <div className="weather-container-top">
+          <h1>{day}</h1>
+          <section>
+            {dayOfMonth} {month} {year}
+          </section>
+          <section>
+            {data.name && data.sys ? `${data.name}, ${data.sys.country}` : ""}
+          </section>
         </div>
-        <div>
-          {data.name && data.sys ? `${data.name}, ${data.sys.country}` : ""}
+        <div className="weather-container-bottom">
+          <p>{data.main && `${data.main.temp.toFixed()}°C`}</p>
+          <div>{data.weather && data.weather[0].main}</div>
         </div>
       </div>
-      <div>
-        <div>{data.main && `${data.main.temp.toFixed()}°C`}</div>
-        <div>{data.weather && data.weather[0].main}</div>
-      </div>
-      <div>
-        <div>{data.main && `Pressure ${data.main.pressure}`}</div>
-        <div>{data.main && `Humidity ${data.main.humidity}`}</div>
-        <div>{data.wind && `Wind speed ${data.wind.speed}`}</div>
+      <div className="weather-container-info">
+        <div>
+          <input
+            type="text"
+            value={location}
+            onChange={(event) => setLocation(event.target.value)}
+            onKeyUp={searchLocationHandler}
+            placeholder="Enter location"
+          />
+          <div>{data.main && `Pressure ${data.main.pressure}`}</div>
+          <div>{data.main && `Humidity ${data.main.humidity}`}</div>
+          <div>{data.wind && `Wind speed ${data.wind.speed}`}</div>
+        </div>
       </div>
     </div>
   );
