@@ -120,19 +120,19 @@ function App() {
           {showInfoData && (
             <div className="info-data">
               <div className="info-row">
-                <div className="info-label">Pressure</div>
+                <div className="info-label">PRESSURE</div>
                 <div className="info-value">
                   {data.main && data.main.pressure}
                 </div>
               </div>
               <div className="info-row">
-                <div className="info-label">Humidity</div>
+                <div className="info-label">HUMIDITY</div>
                 <div className="info-value">
                   {data.main && data.main.humidity}
                 </div>
               </div>
               <div className="info-row">
-                <div className="info-label">Wind Speed</div>
+                <div className="info-label">WIND SPEED</div>
                 <div className="info-value">{data.wind && data.wind.speed}</div>
               </div>
             </div>
