@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap");
 
 body {
   background-color: #636e79;
@@ -34,6 +34,7 @@ body {
 h1 {
   font-size: 40px;
   margin: 0;
+  font-weight: bold;
 }
 
 section {
@@ -52,6 +53,7 @@ section {
 .weather-container-bottom p {
   font-size: 64px;
   margin: 0;
+  font-weight: bold;
 }
 
 .weather-container-bottom span {
@@ -132,6 +134,10 @@ input::placeholder {
   gap: 7px;
 }
 
+img {
+  filter: invert();
+}
+
 li {
   display: flex;
   align-items: center;
@@ -142,4 +148,11 @@ li {
   border-radius: 15px;
   background: rgba(27, 27, 27, 0.75);
   font-size: 24px;
+}
+#day {
+  font-weight: bold;
+}
+
+input:focus::placeholder {
+  color: transparent;
 }

@@ -4,6 +4,10 @@ import axios from "axios";
 import clear from "./images/clear.jpg";
 import cloudy from "./images/cloudy.jpg";
 import rain from "./images/rain.jpg";
+import sun from "./images/sun.png";
+import cloud from "./images/cloud.png";
+import rainy from "./images/rainy.png";
+import locationIcon from "./images/location.png";
 import { useEffect } from "react";
 
 function App() {
@@ -11,6 +15,7 @@ function App() {
   const [location, setLocation] = useState("");
   const [forecast, setForecast] = useState([]);
   const [weatherBackground, setWeatherBackground] = useState("");
+  const [forecastIcons, setForecastIcons] = useState([]);
   const [showInfoData, setShowInfoData] = useState(false);
 
   const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=d55ae5d42dba3e342a98346e90f794b1`;
@@ -41,6 +46,12 @@ function App() {
     Rain: rain,
   };
 
+  const forecastImages = {
+    Clear: sun,
+    Clouds: cloud,
+    Rain: rainy,
+  };
+
   useEffect(() => {
     setWeatherBackground(weatherImages.Clear);
   }, [weatherImages.Clear]);
@@ -58,6 +69,14 @@ function App() {
       });
       axios.get(forecastUrl).then((res) => {
         const forecastData = res.data.list;
+        const forecastIcons = forecastData.map((forecastItem) => {
+          const forecastWeather = forecastItem.weather[0].main;
+          return forecastImages.hasOwnProperty(forecastWeather)
+            ? forecastImages[forecastWeather]
+            : forecastImages.Clear;
+        });
+
+        setForecastIcons(forecastIcons);
 
         const highestTemperatures = {};
 
@@ -97,7 +116,8 @@ function App() {
         <div className="weather-container-top">
           <h1>{day}</h1>
           <section>
-            {dayOfMonth} {month} {year}
+            <img src={locationIcon} alt="locationIcon" /> {dayOfMonth} {month}{" "}
+            {year}
           </section>
           <section>
             {data.name && data.sys ? `${data.name}, ${data.sys.country}` : ""}
@@ -122,18 +142,20 @@ function App() {
               <div className="info-row">
                 <div className="info-label">PRESSURE</div>
                 <div className="info-value">
-                  {data.main && data.main.pressure}
+                  {data.main && `${data.main.pressure}hPa`}
                 </div>
               </div>
               <div className="info-row">
                 <div className="info-label">HUMIDITY</div>
                 <div className="info-value">
-                  {data.main && data.main.humidity}
+                  {data.main && `${data.main.humidity}%`}
                 </div>
               </div>
               <div className="info-row">
                 <div className="info-label">WIND SPEED</div>
-                <div className="info-value">{data.wind && data.wind.speed}</div>
+                <div className="info-value">
+                  {data.wind && `${data.wind.speed}m/s`}
+                </div>
               </div>
             </div>
           )}
@@ -141,7 +163,8 @@ function App() {
         <ul className="daily-container">
           {forecast.map(([dayName, maxTemp], index) => (
             <li key={index}>
-              <span>
+              <img src={forecastIcons[index]} alt="icon" />
+              <span id="day">
                 {new Date(dayName).toLocaleDateString("en-us", {
                   weekday: "short",
                 })}
