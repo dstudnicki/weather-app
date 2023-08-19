@@ -56,9 +56,9 @@ function App() {
     setWeatherBackground(weatherImages.Clear);
   }, [weatherImages.Clear]);
 
-  const searchLocationHandler = (event) => {
+  const searchLocationHandler = async (event) => {
     if (event.key === "Enter") {
-      axios.get(weatherUrl).then((res) => {
+      const weatherFetch = axios.get(weatherUrl).then((res) => {
         setData(res.data);
         const weatherData = res.data.weather[0].main;
         if (weatherImages.hasOwnProperty(weatherData)) {
@@ -67,15 +67,14 @@ function App() {
           setWeatherBackground(weatherImages.Clear);
         }
       });
-      axios.get(forecastUrl).then((res) => {
+      const forecastFetch = axios.get(forecastUrl).then((res) => {
         const forecastData = res.data.list;
         const forecastIcons = forecastData.map((forecastItem) => {
           const forecastWeather = forecastItem.weather[0].main;
           return forecastImages.hasOwnProperty(forecastWeather)
             ? forecastImages[forecastWeather]
-            : forecastImages.Clear;
+            : "";
         });
-
         setForecastIcons(forecastIcons);
 
         const highestTemperatures = {};
@@ -102,6 +101,8 @@ function App() {
 
         setForecast(nextThreeDaysHighestTemp);
       });
+      await Promise.all([weatherFetch, forecastFetch]).then();
+
       setLocation("");
       setShowInfoData(true);
     }
