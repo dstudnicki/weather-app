@@ -17,9 +17,11 @@ function App() {
     const [weatherBackground, setWeatherBackground] = useState("");
     const [forecastIcons, setForecastIcons] = useState([]);
     const [showInfoData, setShowInfoData] = useState(false);
+    const apiKey = process.env.REACT_APP_API_KEY;
 
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=d55ae5d42dba3e342a98346e90f794b1`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=d55ae5d42dba3e342a98346e90f794b1`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${apiKey}`;
+    console.log(weatherUrl);
 
     const day = new Date().toLocaleString("en-us", { weekday: "long" });
     const year = new Date().getFullYear();
